@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>USER LOGIN</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="section">
+		<div class="container">
+			<div class="row full-height justify-content-center">
+				<div class="col-12 text-center align-self-center py-5">
+					<div class="section pb-5 pt-5 pt-sm-2 text-center">
+						<h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
+						<!-- Update đoạn này để thực hiện chuyển đổi giữa 2 form login and register -->
+						<input class="checkbox" type="checkbox" id="reg-log" name="reg-log"
+							[(ngModel)]="isRegistering" />
+						<label for="reg-log" (click)="toggleRegister()"></label>
+						<div class="card-3d-wrap mx-auto">
+							<div class="card-3d-wrapper">
+								<!-- Form đăng nhập -->
+								<div class="card-front" *ngIf="!isRegistering">
+									<div class="center-wrap">
+										<div class="section text-center">
+											<h4 class="mb-4 pb-3">Log In</h4>
+											<form (ngSubmit)="login()">
+												<div class="form-group">
+													<input type="email" [(ngModel)]="email" name="email"
+														class="form-style" placeholder="Email" required>
+													<i class="input-icon uil uil-at"></i>
+												</div>
+												<div class="form-group mt-2">
+													<input type="password" [(ngModel)]="password" name="password"
+														class="form-style" placeholder="Password" required>
+													<i class="input-icon uil uil-lock-alt"></i>
+												</div>
+												<button type="submit" class="btn mt-4">Login</button>
+												<p class="mb-0 mt-4 text-center"><a href="#" (click)="forgotPassword()"
+														class="link">Forgot your password?</a></p>
+											</form>
+										</div>
+									</div>
+								</div>
+
+								<!-- Form đăng ký -->
+								<div class="card-back" *ngIf="isRegistering">
+									<div class="center-wrap">
+										<div class="section text-center">
+											<h4 class="mb-3 pb-3">Sign Up</h4>
+											<form (ngSubmit)="register()">
+												<div class="form-group">
+													<input type="text" [(ngModel)]="fullName" name="fullName"
+														class="form-style" placeholder="Full Name" required>
+													<i class="input-icon uil uil-user"></i>
+												</div>
+												<div class="form-group mt-2">
+													<input type="tel" [(ngModel)]="phoneNumber" name="phoneNumber"
+														class="form-style" placeholder="Phone Number" required>
+													<i class="input-icon uil uil-phone"></i>
+												</div>
+												<div class="form-group mt-2">
+													<input type="email" [(ngModel)]="email" name="email"
+														class="form-style" placeholder="Email" required>
+													<i class="input-icon uil uil-at"></i>
+												</div>
+												<div class="form-group mt-2">
+													<input type="password" [(ngModel)]="password" name="password"
+														class="form-style" placeholder="Password" required>
+													<i class="input-icon uil uil-lock-alt"></i>
+												</div>
+												<button type="submit" class="btn mt-4">Register</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

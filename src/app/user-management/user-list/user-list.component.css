@@ -1,0 +1,106 @@
+.user-management {
+    padding: 20px;
+    /* Thêm padding cho container chính */
+    background-color: #f9f9f9;
+    /* Màu nền sáng cho khu vực quản lý người dùng */
+    border-radius: 8px;
+    /* Bo góc cho toàn bộ container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Tạo hiệu ứng đổ bóng nhẹ cho container */
+}
+h2{
+    text-align: center;
+}
+h1 {
+    font-size: 24px;
+    /* Kích thước chữ cho tiêu đề */
+    color: #333;
+    /* Màu chữ cho tiêu đề */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới tiêu đề */
+}
+
+input[type="text"] {
+    width: 50%;
+    /* Chiếm toàn bộ chiều rộng của container */
+    padding: 10px;
+    /* Padding cho hộp tìm kiếm */
+    font-size: 16px;
+    /* Kích thước chữ cho hộp tìm kiếm */
+    border: 1px solid #ccc;
+    /* Viền cho hộp tìm kiếm */
+    border-radius: 4px;
+    /* Bo góc cho hộp tìm kiếm */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới hộp tìm kiếm */
+    transition: border-color 0.3s;
+    /* Hiệu ứng chuyển màu viền khi hover */
+}
+
+input[type="text"]:focus {
+    outline: none;
+    /* Bỏ vùng chọn khi hộp tìm kiếm được chọn */
+    border-color: #66afe9;
+    /* Thay đổi màu viền khi hộp tìm kiếm được chọn */
+}
+
+table {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng của container */
+    border-collapse: collapse;
+    /* Bỏ khoảng cách giữa các ô trong bảng */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới bảng */
+}
+
+th,
+td {
+    padding: 12px;
+    /* Padding cho các ô trong bảng */
+    text-align: left;
+    /* Căn trái cho nội dung trong bảng */
+    border-bottom: 1px solid #ddd;
+    /* Đường viền giữa các hàng trong bảng */
+}
+
+th {
+    background-color: #f2f2f2;
+    /* Màu nền cho hàng tiêu đề */
+    font-weight: bold;
+    /* Đậm cho hàng tiêu đề */
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+    /* Màu nền cho hàng khi hover */
+}
+
+button {
+    padding: 8px 12px;
+    /* Padding cho button */
+    font-size: 14px;
+    /* Kích thước chữ cho button */
+    border: none;
+    /* Bỏ viền cho button */
+    border-radius: 5px;
+    /* Bo góc cho button */
+    cursor: pointer;
+    /* Hiển thị con trỏ tay khi hover */
+    transition: background-color 0.3s;
+    /* Hiệu ứng chuyển màu nền khi hover */
+}
+
+button:hover {
+    background-color: #007bff;
+    /* Màu nền khi hover trên button */
+    color: white;
+    /* Màu chữ khi hover trên button */
+}
+.btn-add{
+    margin-bottom: 20px;
+    /* Khoảng cách dưới button thêm người dùng */
+}
+button+button {
+    margin-left: 10px;
+    /* Khoảng cách giữa các button */
+}

@@ -1,0 +1,45 @@
+<!-- Đây là trang báo cáo -->
+<div class="report-container">
+    <h2>Trang Báo Cáo Mượn Sách</h2>
+
+    <!-- Bộ lọc tìm kiếm và chọn ngày -->
+    <div class="filters">
+        <div class="filter-item">
+            <label for="search">Tìm kiếm theo tên người mượn:</label>
+            <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Nhập tên người mượn" (input)="onSearch()" />
+        </div>
+        <div class="filter-item">
+            <label for="date">Chọn ngày:</label>
+            <input type="date" id="date" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+        </div>
+    </div>
+
+    <!-- Hiển thị số lượng sách đã mượn -->
+    <div class="borrow-summary">
+        <h3>Số lượng sách đã mượn trong ngày: {{ totalBooksBorrowed }}</h3>
+    </div>
+
+    <!-- Bảng báo cáo -->
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Ngày mượn</th>
+                <th>Ngày trả dự kiến</th>
+                <th>Số lượng sách mượn</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of filteredRecords">
+                <td>{{ record.borrower.name }}</td>
+                <td>{{ record.borrower.email }}</td>
+                <td>{{ record.borrower.phone }}</td>
+                <td>{{ record.borrowDate | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ record.returnDate | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ record.books.length }}</td>  <!-- Hiển thị số sách mượn -->
+            </tr>
+        </tbody>
+    </table>
+</div>

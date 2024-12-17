@@ -1,0 +1,86 @@
+/* Form chính giữa trang */
+.add-user-form {
+    width: 400px;
+    margin: 20px auto; /* Canh giữa */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-user-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Căn chỉnh các input và label */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box; /* Giữ kích thước không đổi */
+    font-size: 1rem;
+    color: #333;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Nút hành động */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"] {
+    background-color: #007bff; /* Xanh dương */
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="button"] {
+    background-color: #6c757d; /* Xám */
+}
+
+button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* Thêm khoảng cách giữa các nút */
+button + button {
+    margin-left: 10px;
+}

@@ -1,0 +1,64 @@
+<!-- Đây là trang tạo đơn sách -->
+<div class="borrowing-form-container">
+    <h2>Form Mượn Sách</h2>
+
+    <!-- Hiển thị trạng thái đang tải -->
+    <div *ngIf="isLoading" class="loading">Đang tải...</div>
+
+    <!-- Form Mượn Sách -->
+    <form (ngSubmit)="onSubmit()">
+        <!-- Thông tin người mượn -->
+        <div class="form-group">
+            <label for="borrowerName">Họ và tên:</label>
+            <input type="text" id="borrowerName" [(ngModel)]="borrower.name" name="borrowerName" required />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" [(ngModel)]="borrower.email" name="email" required />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" id="phone" [(ngModel)]="borrower.phone" name="phone" />
+        </div>
+
+        <div class="form-group">
+            <label for="borrowDate">Ngày mượn:</label>
+            <input type="date" id="borrowDate" [(ngModel)]="borrowDetails.borrowDate" name="borrowDate" required />
+        </div>
+
+        <div class="form-group">
+            <label for="returnDate">Ngày trả dự kiến:</label>
+            <input type="date" id="returnDate" [(ngModel)]="borrowDetails.returnDate" name="returnDate" required />
+        </div>
+
+        <!-- Thông tin sách mượn -->
+        <!-- Thông tin sách mượn -->
+        <div class="form-group">
+            <label for="books">Sách đã chọn:</label>
+            <div *ngFor="let book of books">
+                <p>{{ book.title }} - {{ book.author }} (Số lượng có sẵn: {{ book.available }})</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Số lượng:</label>
+            <input type="number" [(ngModel)]="borrowDetails.quantity" name="quantity" required min="1"
+                [max]="books.length" />
+        </div>
+
+        <!-- Ghi chú -->
+        <div class="form-group">
+            <label for="notes">Ghi chú (tùy chọn):</label>
+            <textarea id="notes" [(ngModel)]="borrowDetails.notes" name="notes"></textarea>
+        </div>
+
+        <!-- Nút gửi và quay lại -->
+        <div class="button-group">
+            <button type="submit" class="btn btn-submit">Mượn Sách</button>
+            <button type="button" class="btn btn-cancel" (click)="goBack()">Quay lại</button>
+        </div>
+
+    </form>
+</div>

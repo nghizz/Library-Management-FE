@@ -1,0 +1,40 @@
+<!-- Đây là trang người dùng -->
+<h2>Danh sách Người Dùng</h2>
+<!-- Tìm kiếm người dùng -->
+<div class="search-box">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Tìm kiếm người dùng..." (input)="onSearch()">
+</div>
+<button routerLink="/users/add" class="btn btn-add">Thêm người dùng</button>
+<table>
+    <thead>
+        <tr>
+            <th>Tên người dùng</th>
+            <th>Email</th>
+            <th>Họ và tên</th>
+            <th>Vai trò</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.fullName }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.address }}</td>
+            <td>
+                <button (click)="editUser(user)">Sửa</button>
+                <button (click)="deleteUser(user.id)">Xóa</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<app-edit-user
+  *ngIf="editingUser"
+  [user]="editingUser"
+  (save)="saveUser($event)"
+  (cancelEdit)="cancelEdit()"
+></app-edit-user>

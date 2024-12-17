@@ -1,0 +1,77 @@
+/* Container for the report */
+.report-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.report-container h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Filter section */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.filter-item label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.filter-item input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Borrow summary section */
+.borrow-summary {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Table */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.report-table th, .report-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.report-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.report-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .report-table th, .report-table td {
+        padding: 8px;
+    }
+}
