@@ -1,27 +1,11 @@
-<!-- book-details.component.html -->
 <div *ngIf="isLoading" class="loading">Đang tải dữ liệu...</div>
 
 <div *ngIf="!isLoading && book" class="book-detail-card">
-    <div class="book-content">
-        <div class="book-image-container">
-            <img [src]="book.coverImage || 'đường dẫn ảnh mặc định'"
-                class="book-image" 
-                alt="Book cover image" 
-                title="Book cover of {{ book.title }}" />
-            <h2>{{ book.title }}</h2>
-        </div>
-        <div class="book-details">
-            <p class="book-info-item"><strong>Tác giả:</strong> {{ book.author }}</p>
-            <p class="book-info-item"><strong>ISBN:</strong> {{ book.isbn }}</p>
-            <p><strong>Năm xuất bản:</strong> {{ book.publishYear }}</p>
-            <p class="book-info-item"><strong>Thể loại:</strong> {{ book.category }}</p>
-            <p><strong>Số lượng:</strong> {{ book.quantity }}</p>
-            <p><strong>Còn lại:</strong> {{ book.available }}</p>
-            <p><strong>Mô tả:</strong> {{ book.description }}</p>
-        </div>
-    </div>
-</div>
-
-<div class="button-group">
-    <button class="btn btn-goback" (click)="goBack()">Quay lại</button>
+  <h2>{{ book.title }}</h2>
+  <p><strong>Tác giả:</strong> {{ book.author }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+  <p><strong>Năm xuất bản:</strong> {{ book.publishYear }}</p>
+  <p><strong>Số lượng:</strong> {{ book.quanity }}</p>
+  <p><strong>Thể loại:</strong> {{ book.category?.name }}</p>
+  <button class="btn btn-back" (click)="goBack()">Quay lại</button>
 </div>

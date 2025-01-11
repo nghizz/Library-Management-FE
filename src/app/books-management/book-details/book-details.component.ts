@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BookService } from '../../services/book.service'; // Import service
-import { Book } from '../../models/book.model'; // Import model
+import { Book } from '../../models/book.model';
+import { BookService } from '../../services/book.service';
 
 @Component({
   selector: 'app-book-details',
@@ -9,35 +9,30 @@ import { Book } from '../../models/book.model'; // Import model
   styleUrls: ['./book-details.component.css']
 })
 export class BookDetailsComponent implements OnInit {
-  book: Book | null = null;
-  isLoading: boolean = true; // Để kiểm soát trạng thái loading
+  book: Book | undefined;
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private bookService: BookService
+    private bookService: BookService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.bookService.getBookById(id).subscribe(book => {
-      this.book = book;
-      this.isLoading = false; // Dừng trạng thái loading khi có dữ liệu
+    this.bookService.getBookById(id).subscribe({
+      next: (data) => {
+        this.book = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Lỗi khi tải thông tin chi tiết sách', error);
+        this.isLoading = false;
+      }
     });
   }
 
-  // Phương thức quay lại trang trước
   goBack(): void {
-    this.router.navigate(['/']); // Quay lại danh sách sách
-  }
-
-  // Phương thức cập nhật sách
-  updateBook(): void {
-    if (this.book) {
-      this.bookService.updateBook(this.book.id, this.book).subscribe(updatedBook => {
-        this.book = updatedBook; // Cập nhật thông tin sách sau khi sửa
-        this.router.navigate(['/']); // Quay lại danh sách sách sau khi lưu
-      });
-    }
+    this.router.navigate(['/books']);
   }
 }

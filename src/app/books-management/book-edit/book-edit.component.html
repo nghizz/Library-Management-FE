@@ -1,51 +1,35 @@
 <div *ngIf="isLoading" class="loading">Đang tải...</div>
 
 <div *ngIf="!isLoading" class="book-edit-card">
-    <h2>Chỉnh sửa Sách</h2>
-    <form (ngSubmit)="saveChanges()">
-        <div class="form-group">
-            <label for="title">Tên sách:</label>
-            <input type="text" id="title" [(ngModel)]="book.title" name="title" required />
-        </div>
-
-        <div class="form-group">
-            <label for="author">Tác giả:</label>
-            <input type="text" id="author" [(ngModel)]="book.author" name="author" required />
-        </div>
-
-        <div class="form-group">
-            <label for="isbn">ISBN:</label>
-            <input type="text" id="isbn" [(ngModel)]="book.isbn" name="isbn" required />
-        </div>
-
-        <div class="form-group">
-            <label for="category">Thể loại:</label>
-            <input type="text" id="category" [(ngModel)]="book.category" name="category" required />
-        </div>
-
-        <div class="form-group">
-            <label for="publishYear">Năm xuất bản:</label>
-            <input type="number" id="publishYear" [(ngModel)]="book.publishYear" name="publishYear" required />
-        </div>
-
-        <div class="form-group">
-            <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" [(ngModel)]="book.quantity" name="quantity" required />
-        </div>
-
-        <div class="form-group">
-            <label for="description">Mô tả:</label>
-            <textarea id="description" [(ngModel)]="book.description" name="description"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="coverImage">Ảnh bìa (URL):</label>
-            <input type="text" id="coverImage" [(ngModel)]="book.coverImage" name="coverImage" />
-        </div>
-
-        <div class="button-group">
-            <button class="btn btn-save" type="submit">Lưu</button>
-            <button class="btn btn-goback" type="button" (click)="goBack()">Quay lại</button>
-        </div>
-    </form>
+  <h2>{{ book.id ? 'Chỉnh sửa Sách' : 'Thêm Sách Mới' }}</h2>
+  <form (ngSubmit)="saveChanges()">
+    <div class="form-group">
+      <label for="title">Tên sách:</label>
+      <input type="text" id="title" [(ngModel)]="book.title" name="title" required />
+    </div>
+    <div class="form-group">
+      <label for="author">Tác giả:</label>
+      <input type="text" id="author" [(ngModel)]="book.author" name="author" />
+    </div>
+    <div class="form-group">
+      <label for="isbn">ISBN:</label>
+      <input type="text" id="isbn" [(ngModel)]="book.isbn" name="isbn" />
+    </div>
+    <div class="form-group">
+      <label for="publishYear">Năm xuất bản:</label>
+      <input type="text" id="publishYear" [(ngModel)]="book.publishYear" name="publishYear" />
+    </div>
+    <div class="form-group">
+      <label for="quanity">Số lượng:</label>
+      <input type="number" id="quanity" [(ngModel)]="book.quanity" name="quanity" required />
+    </div>
+    <div class="form-group">
+      <label for="categoryId">Thể loại (ID):</label>
+      <input type="number" id="categoryId" [(ngModel)]="book.categoryId" name="categoryId" required />
+    </div>
+    <div class="button-group">
+      <button class="btn btn-save" type="submit">Lưu</button>
+      <button class="btn btn-cancel" type="button" (click)="goBack()">Hủy</button>
+    </div>
+  </form>
 </div>

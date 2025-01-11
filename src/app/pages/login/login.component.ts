@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -7,32 +9,42 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  fullName: string = '';
-  phoneNumber: string = '';
-  isRegistering: boolean = false;
+  loginModel: any = {};
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  toggleRegister() {
-    this.isRegistering = !this.isRegistering;
+  login(): void {
+    this.authService.login(this.loginModel).subscribe(
+      (response) => {
+        if (response.status === 'Success') {
+          // Xử lý đăng nhập thành công
+          const userData: User = {
+            IdUser: response.data.idUser,
+            Username: response.data.username,
+            AccessToken: response.data.accessToken,
+            Expiration: response.data.expiration,
+            Roles: response.data.roles,
+          };
+  
+          // Lưu thông tin người dùng và token vào localStorage
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('accessToken', response.data.accessToken);
+  
+          console.log('Đăng nhập thành công', userData);
+          
+          // Điều hướng đến trang chính sau khi đăng nhập thành công
+          this.router.navigate(['/home']);
+        } else {
+          console.error('Lỗi đăng nhập:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Lỗi API:', error);
+      }
+    );
   }
-  // Đăng nhập
-  login() {
-    // Giả sử đăng nhập thành công, điều hướng đến trang chủ
-    console.log('Logged in with email:', this.email);
-    this.router.navigate(['/home']);
-  }
+  
 
-  // Đăng ký
-  register() {
-    // Giả sử đăng ký thành công, điều hướng đến trang chủ
-    console.log('Registered with email:', this.email);
-    this.router.navigate(['/home']);
-  }
-
-  // Quên mật khẩu (có thể điều hướng đến một trang khác)
   forgotPassword() {
     console.log('Forgot password clicked');
     // Điều hướng đến trang quên mật khẩu

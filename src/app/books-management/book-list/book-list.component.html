@@ -9,42 +9,39 @@
   </div>
 
   <!-- Nút thêm sách -->
-  <button class="btn btn-add" (click)="onAddBook()">Thêm Sách</button>
+  <div class="add-book-btn-container">
+    <button class="btn btn-add" (click)="onAddBook()">Thêm sách</button>
+  </div>
 
   <!-- Bảng danh sách sách -->
   <table class="book-table">
     <thead>
       <tr>
-        <th><input type="checkbox" (change)="onSelectAll($event)" /></th> <!-- Checkbox để chọn tất cả -->
         <th>Tên sách</th>
         <th>Tác giả</th>
         <th>Thể loại</th>
-        <th>Chi tiết</th>
+        <th>Số Lượng</th>
         <th>Thao tác</th>
-        <th>Hành động</th> <!-- Thêm cột cho các nút thao tác -->
       </tr>
     </thead>
     <tbody>
+      <!-- Kiểm tra nếu không có sách -->
+      <tr *ngIf="books.length === 0">
+        <td colspan="4" class="no-books">Không có sách nào.</td>
+      </tr>
+
+      <!-- Hiển thị danh sách sách nếu có -->
       <tr *ngFor="let book of books">
-        <td>
-          <input type="checkbox" [(ngModel)]="book.selected" (change)="onSelectionChange()" />
-        </td>
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
-        <td>{{ book.category }}</td>
+        <td>{{ book.category?.name }}</td>
+        <td><input type="number" [(ngModel)]="book.quanity" (change)="onUpdateQuantity(book.id!, book.quanity)"></td>
         <td>
-          <button class="btn btn-details" (click)="onViewDetails(book.id)">Xem</button>
-        </td>
-        <td>
-          <button class="btn btn-edit" (click)="onEditBook(book.id)">Sửa</button>
-        </td>
-        <td>
-          <button class="btn btn-delete" (click)="onDeleteBook(book.id)">Xóa</button>
+          <button class="btn btn-details" (click)="onViewDetails(book.id!)">Xem</button>
+          <button class="btn btn-edit" (click)="onEditBook(book.id!)">Sửa</button>
+          <button class="btn btn-delete" (click)="onDeleteBook(book.id!)">Xóa</button>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <!-- Nút mượn sách -->
-  <button class="btn btn-borrow" (click)="onBorrowBooks()">Mượn Sách</button>
 </div>

@@ -1,49 +1,59 @@
+// user.service.ts
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { Customer } from '../models/customer.model';
+
+// Interface để xác định kiểu trả về từ API
+interface ApiResponse<T> {
+  status: string;
+  message: string;
+  data: T;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private users: User[] = [
-    { id: 1, username: 'nguyenvana', email: '[email protected]', fullName: 'Nguyen Van A', role: 'admin', phoneNumber: '0123456789', address: 'Hà Nội' },
-    { id: 2, username: 'tranthib', email: '[email protected]', fullName: 'Tran Thi B', role: 'user', phoneNumber: '0123456790', address: 'Hồ Chí Minh' },
-    { id: 3, username: 'levanc', email: '[email protected]', fullName: 'Le Van C', role: 'admin', phoneNumber: '0123456791', address: 'Đà Nẵng' },
-  ];
+  private apiUrl = 'https://localhost:7247/api/Customers'; 
 
-  constructor() {}
+  constructor(private http: HttpClient) { }
 
-  getUsers(): User[] {
-    return this.users;
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('accessToken');
+    return new HttpHeaders({
+      'Authorization': token ? `Bearer ${token}` : ''
+    });
   }
 
-  addUser(user: User): void {
-    const newUser = { ...user, id: this.generateId() };
-    this.users.push(newUser);
+  getCustomers(): Observable<ApiResponse<Customer[]>> {
+    return this.http.get<ApiResponse<Customer[]>>(this.apiUrl, { headers: this.getHeaders() });
   }
 
-  editUser(updatedUser: User): void {
-    const index = this.users.findIndex(user => user.id === updatedUser.id);
-    if (index !== -1) {
-      this.users[index] = updatedUser;
+  getCustomerById(id: string): Observable<ApiResponse<Customer>> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<ApiResponse<Customer>>(url, { headers: this.getHeaders() });
+  }
+
+  addCustomer(customer: Customer): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(this.apiUrl, customer, { headers: this.getHeaders() });
+  }
+
+  editCustomer(customer: Customer): Observable<ApiResponse<any>> {
+    const url = `${this.apiUrl}/${customer.id}`;
+    return this.http.put<ApiResponse<any>>(url, customer, { headers: this.getHeaders() });
+  }
+
+  deleteCustomer(customerId: number | undefined): Observable<ApiResponse<any>> {
+    if (customerId === undefined) {
+      return throwError(() => new Error('customerId cannot be undefined'));
     }
+    const url = `${this.apiUrl}/${customerId}`;
+    return this.http.delete<ApiResponse<any>>(url, { headers: this.getHeaders() });
   }
 
-  deleteUser(userId: number): void {
-    this.users = this.users.filter(user => user.id !== userId);
-  }
-
-  searchUsers(searchTerm: string): User[] {
-    if (!searchTerm) {
-      return this.users; // Trả về danh sách đầy đủ nếu không có từ khóa tìm kiếm
-    }
-    return this.users.filter(user =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
-
-  private generateId(): number {
-    return this.users.length > 0 ? Math.max(...this.users.map(user => user.id!)) + 1 : 1;
+  searchCustomers(searchTerm: string): Observable<ApiResponse<Customer[]>> {
+    const url = `${this.apiUrl}/search?searchTerm=${searchTerm}`;
+    return this.http.get<ApiResponse<Customer[]>>(url, { headers: this.getHeaders() });
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Book } from '../../models/book.model'; 
-import { BookService } from '../../services/book.service'; 
+import { ActivatedRoute, Router } from '@angular/router';
+import { Book } from '../../models/book.model';
+import { BookService } from '../../services/book.service';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-list',
@@ -10,83 +11,89 @@ import { BookService } from '../../services/book.service';
 })
 export class BookListComponent implements OnInit {
   books: Book[] = [];
-  selectedBooks: Book[] = []; // Mảng lưu các sách đã chọn
   searchTerm: string = '';
   isLoading = true;
 
-  constructor(
-    private bookService: BookService,
-    private router: Router
-  ) { }
+  constructor(private bookService: BookService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadBooks();
   }
 
+  // Trong component BookListComponent
   loadBooks(): void {
-    this.bookService.getBooks().subscribe(
-      (books: Book[]) => {
-        this.books = books;
+    this.bookService.getBooks().subscribe({
+      next: (response) => {
+        console.log(response);  // Kiểm tra cấu trúc response
+        if (response && Array.isArray(response.data)) {
+          this.books = response.data;  // Gán mảng sách vào biến `books`
+        } else {
+          console.error('Dữ liệu trả về không phải là mảng:', response.data);
+        }
         this.isLoading = false;
       },
-      (error) => {
-        console.error('Error loading books:', error);
+      error: (error) => {
+        console.error('Lỗi khi tải danh sách sách', error);
         this.isLoading = false;
       }
-    );
+    });
   }
 
   onSearch(): void {
-    this.bookService.searchBooks(this.searchTerm).subscribe(
-      (books: Book[]) => {
-        this.books = books;
-      },
-      (error) => {
-        console.error('Error searching books:', error);
-      }
-    );
+    if (this.searchTerm.trim() !== '') {
+      this.bookService.searchBooks(this.searchTerm).pipe(
+        debounceTime(500), // Đợi 500ms trước khi gửi yêu cầu tìm kiếm
+        switchMap((data) => {
+          return this.bookService.searchBooks(data);
+        })
+      ).subscribe({
+        next: (data) => {
+          this.books = data;
+        },
+        error: (error) => {
+          console.error('Lỗi khi tìm kiếm sách', error);
+        }
+      });
+    } else {
+      this.loadBooks();
+    }
   }
 
-  onAddBook(): void {
-    this.router.navigate(['/books/add']);
-  }
+    onEditBook(id: number): void {
+      this.router.navigate([`/books/edit/${id}`]);
+    }
 
-  onEditBook(id: number): void {
-    this.router.navigate([`/books/edit/${id}`]);
-  }
+    onViewDetails(id: number): void {
+      this.router.navigate([`/books/details/${id}`]);
+    }
 
-  onViewDetails(id: number): void {
-    this.router.navigate([`/books/details/${id}`]);
-  }
-
-  onDeleteBook(id: number): void {
-    const book = this.books.find(b => b.id === id);
-    if (book) {
-      this.bookService.deleteBook(id).subscribe(() => {
-        this.books = this.books.filter(b => b.id !== id); // Loại bỏ sách khỏi danh sách
+    onDeleteBook(id: number): void {
+      if(confirm('Bạn có chắc chắn muốn xóa cuốn sách này?')) {
+      this.bookService.deleteBook(id).subscribe({
+        next: () => {
+          this.books = this.books.filter(book => book.id !== id);
+        },
+        error: (error) => {
+          console.error('Lỗi khi xóa sách', error);
+        }
       });
     }
   }
 
-  onSelectAll(event: any): void {
-    const isChecked = event.target.checked;
-    this.books.forEach(book => {
-      book.selected = isChecked;
+  onAddBook(): void {
+    this.router.navigate(['books/add']);
+  }  
+
+  // Cập nhật số lượng sách
+  onUpdateQuantity(bookId: number, quantityChange: number): void {
+    this.bookService.updateBookQuantity(bookId, quantityChange).subscribe({
+      next: () => {
+        alert('Cập nhật số lượng thành công');
+        this.loadBooks();  // Tải lại danh sách sách
+      },
+      error: (error) => {
+        console.error('Lỗi khi cập nhật số lượng sách', error);
+      }
     });
-    this.onSelectionChange(); // Cập nhật danh sách sách đã chọn
-  }
-
-  onSelectionChange(): void {
-    this.selectedBooks = this.books.filter(book => book.selected);
-  }
-
-  onBorrowBooks(): void {
-    if (this.selectedBooks.length > 0) {
-      // Chuyển đến form mượn sách và truyền thông tin các sách đã chọn
-      const bookIds = this.selectedBooks.map(book => book.id);
-      this.router.navigate(['/borrowing/create'], { queryParams: { ids: bookIds.join(',') } });
-    } else {
-      alert('Vui lòng chọn sách để mượn!');
-    }
   }
 }

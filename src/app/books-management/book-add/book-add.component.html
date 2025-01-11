@@ -20,7 +20,11 @@
 
         <div class="form-group">
             <label for="category">Thể loại:</label>
-            <input type="text" id="category" [(ngModel)]="book.category" name="category" required />
+            <input list="categories" id="category" [(ngModel)]="book.categoryId" name="categoryId" required />
+            <datalist id="categories">
+                <option value="1">Lịch Sử</option>
+                <option value="2">Khoa Học</option>
+            </datalist>
         </div>
 
         <div class="form-group">
@@ -30,19 +34,9 @@
 
         <div class="form-group">
             <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" [(ngModel)]="book.quantity" name="quantity" required />
+            <input type="number" id="quantity" [(ngModel)]="book.quanity" name="quanity" required />
         </div>
-
-        <div class="form-group">
-            <label for="description">Mô tả:</label>
-            <textarea id="description" [(ngModel)]="book.description" name="description"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="coverImage">Ảnh bìa (URL):</label>
-            <input type="text" id="coverImage" [(ngModel)]="book.coverImage" name="coverImage" />
-        </div>
-
+        
         <div class="button-group">
             <button class="btn btn-add" type="submit">Thêm sách</button>
             <button class="btn btn-goback" type="button" (click)="goBack()">Quay lại</button>

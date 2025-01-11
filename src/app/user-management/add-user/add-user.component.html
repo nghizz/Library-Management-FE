@@ -1,35 +1,28 @@
 <div class="edit-user-form">
     <h2>Thêm người dùng mới</h2>
-    <form #addForm="ngForm" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="submitForm(customerForm)" #customerForm="ngForm"> 
         <div class="form-group">
-            <label for="username">Tên đăng nhập:</label>
-            <input type="text" id="username" name="username" [(ngModel)]="user.username" required />
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" [(ngModel)]="user.email" required />
+            <label for="cccd">CCCD:</label>
+            <input type="text" id="cccd" name="cccd" [(ngModel)]="newCustomer.cccd" required />
         </div>
         <div class="form-group">
             <label for="fullName">Họ và tên:</label>
-            <input type="text" id="fullName" name="fullName" [(ngModel)]="user.fullName" required />
+            <input type="text" id="fullName" name="fullName" [(ngModel)]="newCustomer.fullName" required />
         </div>
         <div class="form-group">
-            <label for="role">Vai trò:</label>
-            <select id="role" name="role" [(ngModel)]="user.role">
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-            </select>
+            <label for="studentId">Mã sinh viên:</label>
+            <input type="text" id="studentId" name="studentId" [(ngModel)]="newCustomer.studentId" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="newCustomer.email" required />
         </div>
         <div class="form-group">
             <label for="phoneNumber">Số điện thoại:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber" />
-        </div>
-        <div class="form-group">
-            <label for="address">Địa chỉ:</label>
-            <textarea id="address" name="address" [(ngModel)]="user.address"></textarea>
+            <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="newCustomer.phoneNumber" />
         </div>
         <div class="form-actions">
-            <button type="submit" [disabled]="!addForm.form.valid">Thêm mới</button>
+            <button type="submit">Thêm mới</button>
             <button type="button" (click)="cancel()">Hủy</button>
         </div>
     </form>

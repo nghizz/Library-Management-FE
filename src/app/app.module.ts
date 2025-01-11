@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms'; // Import FormsModule để sử dụng ngModel
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 // Các component
 import { AppComponent } from './app.component';
@@ -36,7 +38,9 @@ import { EditUserComponent } from './user-management/edit-user/edit-user.compone
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule  // Thêm FormsModule để sử dụng ngModel trong các form
+    FormsModule,  // Thêm FormsModule để sử dụng ngModel trong các form
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

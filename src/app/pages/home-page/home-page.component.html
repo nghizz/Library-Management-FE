@@ -34,27 +34,18 @@
       </a>
       <span class="tooltip">Báo cáo</span>
     </li>
-    <li class="profile">
-      <div class="profile-details">
-        <img src="assects/images/doraemon.jpg" alt="profileImg" />
-        <div class="name_role">
-          <div class="name">Admin</div>
-          <div class="role">Quản trị</div>
-        </div>
-      </div>
-      <i class="bx bx-log-out" id="log_out" (click)="logOut()"></i>
-    </li>
   </ul>
 </div>
-
-<div class="section">
-  <section class="section section-home" id="books">
-    <app-book-list></app-book-list>
-  </section>
-  <section class="section section-home" id="users">
-    <app-user-list></app-user-list>
-  </section>
-  <section class="section section-home" id="report">
-    <app-report></app-report>
-  </section>
-</div>
+  <!-- Các section với id tương ứng -->
+  <div class="section">
+    <section class="section section-home" id="books">
+      <app-book-list></app-book-list>
+    </section>
+    <section class="section section-home" id="users">
+      <app-user-list></app-user-list>
+    </section>
+    <section class="section section-home" id="report">
+      <app-report></app-report>
+    </section>
+  </div>
+  

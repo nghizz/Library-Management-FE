@@ -1,44 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Book } from '../../models/book.model';  // Giả sử bạn đã có model Book
+import { Book } from '../../models/book.model';
+import { BookService } from '../../services/book.service';
 
 @Component({
   selector: 'app-book-add',
   templateUrl: './book-add.component.html',
   styleUrls: ['./book-add.component.css']
 })
-export class BookAddComponent implements OnInit {
+export class BookAddComponent {
   book: Book = {
-    id: 0,
     title: '',
     author: '',
     isbn: '',
-    category: '',
-    publishYear: 2021,
-    quantity: 0,
-    available: 0,
-    description: '',
-    coverImage: ''
+    publishYear: '2023',
+    quanity: 0,
+    categoryId: null, // Đảm bảo khởi tạo là null hoặc giá trị mặc định
   };
   isLoading = false;
-
-  constructor(private router: Router) { }
-
-  ngOnInit(): void {
-    // Có thể thêm logic khởi tạo, nếu cần thiết
-  }
+  constructor(private bookService: BookService, private router: Router) { }
 
   addBook(): void {
     this.isLoading = true;
-    // Logic thêm sách vào cơ sở dữ liệu hoặc trạng thái
-    console.log('Adding book:', this.book);
-
-    // Giả sử thêm thành công và chuyển hướng
-    this.isLoading = false;
-    this.router.navigate(['/']);  // Điều hướng đến danh sách sách
+    // Trước khi gửi dữ liệu, bạn có thể kiểm tra hoặc xử lý lại dữ liệu
+    console.log('Dữ liệu sách:', this.book);
+    this.bookService.addBook(this.book).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Lỗi khi thêm sách', error);
+        this.isLoading = false;
+      }
+    });
   }
 
   goBack(): void {
-    this.router.navigate(['/']);  // Quay lại danh sách sách
+    this.router.navigate(['/books']);
   }
 }

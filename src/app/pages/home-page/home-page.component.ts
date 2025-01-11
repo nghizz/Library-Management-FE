@@ -1,33 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  styleUrls: ['./home-page.component.css'],
+  animations: [
+    trigger('routeAnimations', [
+      transition('* <=> *', [
+        style({ opacity: 0 }),
+        animate('300ms ease-in-out', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
+
 export class HomePageComponent implements OnInit {
-  // Biến giả lập để lưu thông tin user (thay thế PHP session)
-  userId: string | null = null;
   isOpen: boolean = false;
 
+  constructor(private router: Router, private authService: AuthService) {}
+
   ngOnInit(): void {
-    // Giả lập dữ liệu user lấy từ session (hoặc API sau này)
-    this.userId = 'User123'; // Thay bằng API hoặc service nếu có
+    // Kiểm tra xem người dùng có đăng nhập hay không
+    if (!this.authService.isLoggedIn()) {
+      console.log('Người dùng chưa đăng nhập, chuyển hướng về trang login.');
+      this.router.navigate(['/login']);
+    }
   }
-  constructor(
-      private router: Router
-    ) { }
-  toggleSidebar() {
+
+  toggleSidebar(): void {
     this.isOpen = !this.isOpen;
   }
 
-  // Hàm xử lý logout
   logOut(): void {
-    // Xóa thông tin user giả lập
-    this.userId = null;
-    console.log('User logged out');
-    // Thêm logic điều hướng bằng Angular Router (nếu cần)
-    this.router.navigate(['/login']);
+    this.authService.clearUserData(); // Xóa AccessToken và thông tin người dùng
+    console.log('Đăng xuất thành công');
+    this.router.navigate(['/login']); // Chuyển hướng về trang login
   }
 }

@@ -1,66 +1,110 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
-
+import { Customer } from '../../models/customer.model';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+  styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
+  customers: Customer[] = [];
   searchTerm: string = '';
-  editingUser: User | null = null; 
-  users: User[] = []; // Khởi tạo mảng người dùng
-  newUser: User = { // Khởi tạo đối tượng người dùng để thêm mới
-    username: '',
-    email: '',
-    fullName: '',
-    role: 'user', // Mặc định là 'user'
-    phoneNumber: '',
-    address: ''
-  };
+  editingCustomer: Customer | null = null;
 
-  constructor(private userService: UserService) {
-    this.users = this.userService.getUsers(); // Lấy dữ liệu từ UserService
+  constructor(private customerService: UserService, private router: Router) { }
+
+  ngOnInit() {
+    this.getCustomers();
   }
 
-  onSearch(): void {
-    this.users = this.userService.searchUsers(this.searchTerm); // Tìm kiếm người dùng
-  }
-  addUser() {
-    this.userService.addUser(this.newUser); // Thêm người dùng mới
-    this.users = this.userService.getUsers(); // Cập nhật danh sách người dùng
-    this.resetNewUser(); // Đặt lại form
+  getCustomers(): void {
+    this.customerService.getCustomers().subscribe(
+      (response) => {
+        if (response.status === 'Success') {
+          this.customers = response.data;
+        } else {
+          console.error('Failed to load customers:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Lỗi khi lấy danh sách khách hàng:', error);
+      }
+    );
   }
 
-  editUser(user: User): void {
-    this.editingUser = { ...user }; // Tạo bản sao để chỉnh sửa
+  addCustomer(customer: Customer): void {
+    this.customerService.addCustomer(customer).subscribe(
+      (response) => {
+        if (response.status === 'Success') {
+          this.getCustomers();
+        } else {
+          console.error('Failed to add customer:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Lỗi khi thêm khách hàng:', error);
+      }
+    );
   }
 
-  saveUser(updatedUser: User): void {
-    this.userService.editUser(updatedUser); // Lưu thông tin người dùng đã chỉnh sửa
-    this.users = this.userService.getUsers(); // Cập nhật danh sách
-    this.editingUser = null; // Đóng form chỉnh sửa
+  editCustomer(customer: Customer): void {
+    this.router.navigate([`/edit-user`, customer.id]);
+  }  
+
+  saveCustomer(customer: Customer): void {
+    this.customerService.editCustomer(customer).subscribe(
+      (response) => {
+        if (response.status === 'Success') {
+          this.getCustomers();
+          this.editingCustomer = null;
+        } else {
+          console.error('Failed to save customer:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Lỗi khi lưu khách hàng:', error);
+      }
+    );
   }
 
   cancelEdit(): void {
-    this.editingUser = null; // Đóng form chỉnh sửa
+    this.editingCustomer = null;
   }
-  deleteUser(userId: number | undefined) {
-    if (userId !== undefined) { // Kiểm tra nếu userId không phải là undefined
-      this.userService.deleteUser(userId);
-      this.users = this.userService.getUsers(); // Cập nhật danh sách người dùng
+
+  deleteCustomer(customerId: number | undefined): void {
+    if (customerId === undefined) {
+        console.error('customerId cannot be undefined');
+        return;
+    }
+    if (confirm('Bạn có chắc chắn muốn xóa khách hàng này?')) {
+        this.customerService.deleteCustomer(customerId).subscribe(
+          (response) => {
+            if (response.status === 'Success') {
+              this.getCustomers();
+            } else {
+              console.error('Failed to delete customer:', response.message);
+            }
+          },
+          (error) => {
+            console.error('Lỗi khi xóa khách hàng:', error);
+          }
+        );
     }
   }
 
-  resetNewUser() {
-    this.newUser = {
-      username: '',
-      email: '',
-      fullName: '',
-      role: 'user',
-      phoneNumber: '',
-      address: ''
-    };
+  searchCustomers(): void {
+    this.customerService.searchCustomers(this.searchTerm).subscribe(
+      (response) => {
+        if (response.status === 'Success') {
+          this.customers = response.data;
+        } else {
+          console.error('Không tìm thấy khách hàng:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Lỗi khi tìm kiếm khách hàng:', error);
+      }
+    );
   }
 }

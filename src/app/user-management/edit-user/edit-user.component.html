@@ -1,36 +1,45 @@
+<!-- edit-user.component.html -->
 <div class="edit-user-form">
-    <h2>Chỉnh sửa thông tin người dùng</h2>
-    <form #editForm="ngForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="username">Tên đăng nhập:</label>
-            <input type="text" id="username" name="username" [(ngModel)]="user.username" required />
+    <h2>Chỉnh sửa thông tin khách hàng</h2>
+  
+    <!-- Hiển thị thông báo lỗi -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  
+    <form #form="ngForm" (ngSubmit)="customer && saveCustomer(customer)">
+        <div *ngIf="customer" class="form-group">
+            <label for="cccd">CCCD:</label>
+            <input type="text" id="cccd" name="cccd" [(ngModel)]="customer.cccd" required />
         </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" [(ngModel)]="user.email" required />
-        </div>
-        <div class="form-group">
+        <div *ngIf="customer" class="form-group">
             <label for="fullName">Họ và tên:</label>
-            <input type="text" id="fullName" name="fullName" [(ngModel)]="user.fullName" required />
+            <input type="text" id="fullName" name="fullName" [(ngModel)]="customer.fullName" required />
         </div>
-        <div class="form-group">
-            <label for="role">Vai trò:</label>
-            <select id="role" name="role" [(ngModel)]="user.role">
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-            </select>
+        <div *ngIf="customer" class="form-group">
+            <label for="studentId">Mã sinh viên:</label>
+            <input type="text" id="studentId" name="studentId" [(ngModel)]="customer.studentId" required />
         </div>
-        <div class="form-group">
+        <div *ngIf="customer" class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="customer.email" required />
+        </div>
+        <div *ngIf="customer" class="form-group">
             <label for="phoneNumber">Số điện thoại:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber" />
+            <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="customer.phoneNumber" />
         </div>
-        <div class="form-group">
-            <label for="address">Địa chỉ:</label>
-            <textarea id="address" name="address" [(ngModel)]="user.address"></textarea>
+        <div *ngIf="customer" class="form-group">
+            <label for="createAt">Ngày tạo:</label>
+            <input type="text" id="createAt" name="createAt" [value]="customer.createAt | date: 'dd/MM/yyyy HH:mm:ss'" disabled />
+        </div>
+        <div *ngIf="customer" class="form-group">
+            <label for="updateAt">Ngày cập nhật:</label>
+            <input type="text" id="updateAt" name="updateAt" [value]="customer.updateAt | date: 'dd/MM/yyyy HH:mm:ss'" disabled />
         </div>
         <div class="form-actions">
-            <button type="submit" [disabled]="!editForm.form.valid">Lưu</button>
-            <button type="button" (click)="cancel()">Hủy</button>
+            <button type="submit" [disabled]="!form.valid || loading">Lưu</button>
+            <button type="button" (click)="cancelEdit()">Hủy</button>
         </div>
     </form>
+  
+    <!-- Hiển thị trạng thái tải -->
+    <div *ngIf="loading" class="loading-message">Đang tải...</div>
 </div>
