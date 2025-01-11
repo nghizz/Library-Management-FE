@@ -1,12 +1,10 @@
-// borrowing.model.ts
 export interface Borrowing {
-    id?: number;
-    userId: number;
+    cccd: string; // Thay thế userId bằng CCCD
+    returnDate: Date; 
+    borrowingDetails: BorrowingDetail[]; // Thay thế bookId và quantity bằng BorrowingDetail[]
+  }
+  
+  export interface BorrowingDetail {
     bookId: number;
-    borrowDate: Date;
-    dueDate: Date;
-    returnDate?: Date;
-    status: 'pending' | 'borrowed' | 'returned' | 'overdue';
-    notes?: string;
-    quantity: 1
-}
+    quantity: number;
+  }

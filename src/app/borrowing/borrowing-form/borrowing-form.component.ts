@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BookService } from '../../services/book.service';
-import { BorrowingService } from '../../services/borrowing.service'; 
-import { Book } from '../../models/book.model';
+import { Router } from '@angular/router';
+import { BorrowingService } from '../../services/borrowing.service';
+import { Borrowing, BorrowingDetail } from '../../models/borrowing.model';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-borrowing-form',
@@ -10,59 +11,58 @@ import { Book } from '../../models/book.model';
   styleUrls: ['./borrowing-form.component.css']
 })
 export class BorrowingFormComponent implements OnInit {
-  isLoading = true;
-  books: Book[] = [];  // Danh sách các sách được chọn
-  borrower = { name: '', email: '', phone: '' };  // Thông tin người mượn
-  borrowDetails = { books: [], borrowDate: '', returnDate: '', notes: '', quantity: 1  };  // Thông tin mượn sách
+  selectedBooks: { id: number; title: string; quantity: number }[] = [];
+  cccd: string = ''; // Biến lưu trữ CCCD
+  returnDate: Date = new Date(); // Biến lưu trữ ngày trả sách
 
   constructor(
-    private route: ActivatedRoute,
-    private bookService: BookService,
     private borrowingService: BorrowingService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
-    const bookIds = this.route.snapshot.queryParamMap.get('ids')?.split(','); // Lấy các ID sách từ query params
-    if (bookIds && bookIds.length > 0) {
-      this.loadBooks(bookIds);
+    this.selectedBooks = this.borrowingService.getSelectedBooks();
+    if (this.selectedBooks.length === 0) {
+      // Nếu không có sách nào được chọn, chuyển hướng về trang sách
+      alert('Vui lòng chọn ít nhất một cuốn sách để mượn.');
+      this.router.navigate(['/books']);
+      return;
     }
   }
-
-  loadBooks(bookIds: string[]): void {
-    const ids = bookIds.map(id => +id); // Chuyển sang dạng số
-    this.books = [];  // Reset danh sách sách trước khi load
   
-    // Lấy từng sách theo ID và thêm vào books
-    ids.forEach(id => {
-      this.bookService.getBookById(id).subscribe(
-        (book) => {
-          this.books.push(book);  // Thêm sách vào danh sách books
-          this.isLoading = false;
-        },
-        (error) => {
-          console.error('Error loading book:', error);
-          this.isLoading = false;
-        }
-      );
-    });
-  }
-  
+  createBorrowing() {
+    if (!this.cccd || !this.returnDate || this.selectedBooks.length === 0) {
+      alert('Vui lòng nhập đầy đủ thông tin.');
+      return;
+    }
 
-  onSubmit(): void {
-    // Thực hiện tạo đơn mượn sách với nhiều sách
-    this.borrowingService.createBorrowing(this.borrower, this.borrowDetails).subscribe(
-      (response) => {
-        console.log('Thông tin mượn sách đã được lưu:', response);
-        this.router.navigate(['/']); // Điều hướng đến báo cáo hoặc trang khác
+    const borrowingDetails: BorrowingDetail[] = this.selectedBooks.map(book => ({
+      bookId: book.id!,
+      quantity: book.quantity
+    }));
+
+    
+    const newBorrowing: Borrowing = {
+      cccd: this.cccd,
+      returnDate: this.returnDate,
+      borrowingDetails: borrowingDetails
+    };
+
+    this.borrowingService.createBorrowing(newBorrowing).subscribe(
+      (response: any) => {
+        console.log('Tạo phiếu mượn thành công', response);
+        // Chuyển hướng về trang danh sách sách hoặc thực hiện các hành động khác
+        this.router.navigate(['/books']);
       },
-      (error) => {
-        console.error('Error creating borrowing:', error);
+      (error: any) => {
+        console.error('Lỗi khi tạo phiếu mượn', error);
+        // Hiển thị thông báo lỗi cho người dùng
+        alert('Lỗi khi tạo phiếu mượn. Vui lòng thử lại sau.');
       }
     );
   }
-
-  goBack(): void {
-    this.router.navigate(['/']);  // Quay lại danh sách sách
+  onBack(): void {
+    this.location.back();
   }
 }

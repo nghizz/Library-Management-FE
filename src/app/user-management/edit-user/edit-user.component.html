@@ -28,7 +28,7 @@
         </div>
         <div *ngIf="customer" class="form-group">
             <label for="createAt">Ngày tạo:</label>
-            <input type="text" id="createAt" name="createAt" [value]="customer.createAt | date: 'dd/MM/yyyy HH:mm:ss'" disabled />
+            <input type="text" id="createAt" name="createAt" [value]="customer.creatAt | date: 'dd/MM/yyyy HH:mm:ss'" disabled />
         </div>
         <div *ngIf="customer" class="form-group">
             <label for="updateAt">Ngày cập nhật:</label>

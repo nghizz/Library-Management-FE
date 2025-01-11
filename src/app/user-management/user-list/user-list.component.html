@@ -1,10 +1,13 @@
-<h2>Danh sách khách hàng</h2>
+<div *ngIf="isLoading" class="loading">Đang tải...</div>
+<div *ngIf="!isLoading" class="user-list-container">
+  
+<h2>DANH SÁCH SINH VIÊN</h2>
 
 <div class="search-box">
-  <input type="text" placeholder="Tìm kiếm khách hàng..." [(ngModel)]="searchTerm" (input)="searchCustomers()">
+  <label for="search-input">Tìm kiếm:</label> 
+  <input type="text" id="search-input" placeholder="Tìm kiếm khách hàng..." [(ngModel)]="searchTerm" (input)="searchCustomers()">
+  <button routerLink="/users/add" class="btn btn-add">Thêm khách hàng</button>
 </div>
-
-<button routerLink="/users/add" class="btn btn-add">Thêm khách hàng</button>
 
 <table>
   <thead>
@@ -26,7 +29,7 @@
       <td>{{ customer.studentId }}</td>
       <td>{{ customer.email }}</td>
       <td>{{ customer.phoneNumber }}</td>
-      <td>{{ customer.createAt | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+      <td>{{ customer.creatAt | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
       <td>{{ customer.updateAt | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
       <td>
         <button (click)="editCustomer(customer)">Sửa</button>
@@ -40,4 +43,4 @@
     </tr>
   </tbody>
 </table>
-
+</div>

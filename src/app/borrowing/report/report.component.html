@@ -6,17 +6,17 @@
     <div class="filters">
         <div class="filter-item">
             <label for="search">Tìm kiếm theo tên người mượn:</label>
-            <input type="text" id="search" [(ngModel)]="searchTerm" placeholder="Nhập tên người mượn" (input)="onSearch()" />
+            <input type="text" id="search" placeholder="Nhập tên người mượn" />
         </div>
         <div class="filter-item">
             <label for="date">Chọn ngày:</label>
-            <input type="date" id="date" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+            <input type="date" id="date"/>
         </div>
     </div>
 
     <!-- Hiển thị số lượng sách đã mượn -->
     <div class="borrow-summary">
-        <h3>Số lượng sách đã mượn trong ngày: {{ totalBooksBorrowed }}</h3>
+        <h3>Số lượng sách đã mượn trong ngày:</h3>
     </div>
 
     <!-- Bảng báo cáo -->
@@ -32,14 +32,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let record of filteredRecords">
-                <td>{{ record.borrower.name }}</td>
-                <td>{{ record.borrower.email }}</td>
-                <td>{{ record.borrower.phone }}</td>
-                <td>{{ record.borrowDate | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ record.returnDate | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ record.books.length }}</td>  <!-- Hiển thị số sách mượn -->
-            </tr>
+            
         </tbody>
     </table>
 </div>

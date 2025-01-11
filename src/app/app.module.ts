@@ -3,8 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms'; // Import FormsModule để sử dụng ngModel
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
-
+import { NgxPaginationModule } from 'ngx-pagination';
 // Các component
 import { AppComponent } from './app.component';
 //Các component trong website
@@ -40,7 +39,7 @@ import { EditUserComponent } from './user-management/edit-user/edit-user.compone
     AppRoutingModule,
     FormsModule,  // Thêm FormsModule để sử dụng ngModel trong các form
     HttpClientModule,
-    BrowserAnimationsModule
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -24,7 +24,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'books', component: BookListComponent },
-      { path: 'borrowing/create', component: BorrowingFormComponent },
+      
       { path: 'users', component: UserListComponent },
       { path: 'report', component: ReportComponent },
       { path: '', redirectTo: 'books', pathMatch: 'full' }
@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: 'books/details/:id', component: BookDetailsComponent, canActivate: [AuthGuard] },
   { path: 'users/add', component: AddUserComponent, canActivate: [AuthGuard] },
   { path: 'users/edit/:id', component: EditUserComponent, canActivate: [AuthGuard] },
+  { path: 'borrowing/create', component: BorrowingFormComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 

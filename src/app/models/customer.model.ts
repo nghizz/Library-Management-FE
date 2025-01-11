@@ -6,6 +6,6 @@ export interface Customer {
     studentId?: string;
     email: string;
     phoneNumber: string;
-    createAt?: Date;
+    creatAt?: Date;
     updateAt?: Date;
 }

@@ -1,47 +1,66 @@
 <div *ngIf="isLoading" class="loading">Đang tải...</div>
 
 <div *ngIf="!isLoading" class="book-list-container">
-  <h2>Danh sách Sách</h2>
+  <h2>DANH SÁCH SÁCH TRONG HỆ THỐNG</h2>
 
   <!-- Tìm kiếm sách -->
   <div class="search-box">
+    <label for="search-input">Tìm kiếm:</label>
     <input type="text" [(ngModel)]="searchTerm" placeholder="Tìm kiếm sách..." (input)="onSearch()">
-  </div>
-
-  <!-- Nút thêm sách -->
-  <div class="add-book-btn-container">
-    <button class="btn btn-add" (click)="onAddBook()">Thêm sách</button>
+    <button *ngIf="isAdmin" class="btn btn-add" (click)="onAddBook()">Thêm sách</button>
   </div>
 
   <!-- Bảng danh sách sách -->
   <table class="book-table">
     <thead>
       <tr>
+        <th *ngIf="!isAdmin">Chọn Sách</th>
         <th>Tên sách</th>
         <th>Tác giả</th>
         <th>Thể loại</th>
-        <th>Số Lượng</th>
-        <th>Thao tác</th>
+        <th *ngIf="!isAdmin">Số Lượng Mượn</th>
+        <th *ngIf="isAdmin">Số Lượng</th>
+
+        <th *ngIf="isAdmin">Thao tác</th>
       </tr>
     </thead>
     <tbody>
       <!-- Kiểm tra nếu không có sách -->
       <tr *ngIf="books.length === 0">
-        <td colspan="4" class="no-books">Không có sách nào.</td>
+        <td colspan="5" class="no-books">Không có sách nào.</td>
       </tr>
 
       <!-- Hiển thị danh sách sách nếu có -->
-      <tr *ngFor="let book of books">
+      <tr *ngFor="let book of books | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+        <td *ngIf="!isAdmin">
+          <input type="checkbox" [(ngModel)]="checkedQuantities[book.id!]" (change)="onCheckboxChange(book)">
+        </td>
         <td>{{ book.title }}</td>
         <td>{{ book.author }}</td>
         <td>{{ book.category?.name }}</td>
-        <td><input type="number" [(ngModel)]="book.quanity" (change)="onUpdateQuantity(book.id!, book.quanity)"></td>
-        <td>
+        <td *ngIf="!isAdmin">
+          <input type="number" [(ngModel)]="checkedQuantities[book.id!]" [min]="1" [max]="book.quanity"
+            placeholder="Số lượng" />
+        </td>
+        <td *ngIf="isAdmin"><input type="number" [(ngModel)]="book.quanity"
+            (change)="onUpdateQuantity(book.id!, book.quanity)"></td>
+        <td *ngIf="isAdmin">
           <button class="btn btn-details" (click)="onViewDetails(book.id!)">Xem</button>
           <button class="btn btn-edit" (click)="onEditBook(book.id!)">Sửa</button>
           <button class="btn btn-delete" (click)="onDeleteBook(book.id!)">Xóa</button>
         </td>
       </tr>
     </tbody>
+    <div class="button-container">
+      <button *ngIf="!isAdmin" class="btn btn-borrow" (click)="onBorrowBooks()">Mượn</button>
+    </div>
   </table>
+
+  <!-- Phân trang -->
+  <div class="pagination-controls">
+    <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">Trước</button>
+    <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+    <button [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">Sau</button>
+  </div>
+
 </div>

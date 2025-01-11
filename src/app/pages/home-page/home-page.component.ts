@@ -19,6 +19,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 
 export class HomePageComponent implements OnInit {
   isOpen: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -28,6 +29,7 @@ export class HomePageComponent implements OnInit {
       console.log('Người dùng chưa đăng nhập, chuyển hướng về trang login.');
       this.router.navigate(['/login']);
     }
+    this.isAdmin = this.authService.isAdmin();
   }
 
   toggleSidebar(): void {

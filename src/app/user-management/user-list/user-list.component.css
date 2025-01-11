@@ -1,106 +1,99 @@
 .user-management {
     padding: 20px;
-    /* Thêm padding cho container chính */
-    background-color: #f9f9f9;
-    /* Màu nền sáng cho khu vực quản lý người dùng */
+    background-color: #fff; /* Nền trắng */
     border-radius: 8px;
-    /* Bo góc cho toàn bộ container */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Tạo hiệu ứng đổ bóng nhẹ cho container */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ hơn */
+    font-family: 'Arial', sans-serif; /* Sử dụng font chữ phổ biến */
 }
-h2{
+
+h2 {
     text-align: center;
+    color: #333; /* Màu chữ đậm hơn */
+    margin-bottom: 20px; 
 }
-h1 {
-    font-size: 24px;
-    /* Kích thước chữ cho tiêu đề */
-    color: #333;
-    /* Màu chữ cho tiêu đề */
+
+.search-box {
+    display: flex;
+    align-items: center; /* Canh giữa theo chiều dọc */
     margin-bottom: 20px;
-    /* Khoảng cách dưới tiêu đề */
+    gap: 15px; /* Khoảng cách giữa các phần tử */
+}
+
+.search-box label {
+    margin-right: 10px; /* Khoảng cách với input */
 }
 
 input[type="text"] {
-    width: 50%;
-    /* Chiếm toàn bộ chiều rộng của container */
+    min-width: 200px; /* Chiều rộng tối thiểu */
+    max-width: 400px; /* Chiều rộng tối đa */
     padding: 10px;
-    /* Padding cho hộp tìm kiếm */
     font-size: 16px;
-    /* Kích thước chữ cho hộp tìm kiếm */
     border: 1px solid #ccc;
-    /* Viền cho hộp tìm kiếm */
-    border-radius: 4px;
-    /* Bo góc cho hộp tìm kiếm */
-    margin-bottom: 20px;
-    /* Khoảng cách dưới hộp tìm kiếm */
-    transition: border-color 0.3s;
-    /* Hiệu ứng chuyển màu viền khi hover */
+    border-radius: 25px; 
 }
 
-input[type="text"]:focus {
-    outline: none;
-    /* Bỏ vùng chọn khi hộp tìm kiếm được chọn */
-    border-color: #66afe9;
-    /* Thay đổi màu viền khi hộp tìm kiếm được chọn */
+.btn-add {
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #218838; /* Màu xanh lá cây đậm hơn khi hover */
 }
 
 table {
     width: 100%;
-    /* Chiếm toàn bộ chiều rộng của container */
     border-collapse: collapse;
-    /* Bỏ khoảng cách giữa các ô trong bảng */
     margin-bottom: 20px;
-    /* Khoảng cách dưới bảng */
 }
 
-th,
-td {
+th, td {
     padding: 12px;
-    /* Padding cho các ô trong bảng */
     text-align: left;
-    /* Căn trái cho nội dung trong bảng */
-    border-bottom: 1px solid #ddd;
-    /* Đường viền giữa các hàng trong bảng */
+    border-bottom: 1px solid #eee; /* Màu đường viền nhạt hơn */
 }
 
 th {
-    background-color: #f2f2f2;
-    /* Màu nền cho hàng tiêu đề */
+    background-color: #f5f5f5; /* Màu nền nhạt hơn */
     font-weight: bold;
-    /* Đậm cho hàng tiêu đề */
 }
 
 tr:hover {
-    background-color: #f5f5f5;
-    /* Màu nền cho hàng khi hover */
+    background-color: #f9f9f9; /* Màu nền khi hover nhạt hơn */
 }
 
 button {
     padding: 8px 12px;
-    /* Padding cho button */
     font-size: 14px;
-    /* Kích thước chữ cho button */
     border: none;
-    /* Bỏ viền cho button */
-    border-radius: 5px;
-    /* Bo góc cho button */
+    border-radius: 4px;
     cursor: pointer;
-    /* Hiển thị con trỏ tay khi hover */
-    transition: background-color 0.3s;
-    /* Hiệu ứng chuyển màu nền khi hover */
+    margin-right: 5px; /* Khoảng cách giữa các nút */
+}
+
+button:first-child { /* Nút "Sửa" */
+    background-color: #ffc107; /* Màu vàng */
+    color: white;
+}
+
+button:last-child { /* Nút "Xóa" */
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
 }
 
 button:hover {
-    background-color: #007bff;
-    /* Màu nền khi hover trên button */
-    color: white;
-    /* Màu chữ khi hover trên button */
+    opacity: 0.9; /* Hiệu ứng mờ khi hover */
 }
-.btn-add{
-    margin-bottom: 20px;
-    /* Khoảng cách dưới button thêm người dùng */
-}
-button+button {
-    margin-left: 10px;
-    /* Khoảng cách giữa các button */
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: #666;
 }

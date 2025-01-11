@@ -26,7 +26,7 @@ export class BookService {
 
   // Tìm kiếm sách theo tiêu đề
   searchBooks(searchTerm: string): Observable<any> {
-    const url = `${this.baseUrl}?title=${searchTerm}`;
+    const url = `${this.baseUrl}?title=${encodeURIComponent(searchTerm)}`; //dùng encodeURIComponent để mã hóa dữ liệu
     return this.http.get<any>(url, { headers: this.getHeaders() });
   }
 

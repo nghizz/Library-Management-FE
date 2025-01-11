@@ -8,44 +8,56 @@
 </head>
 <div class="sidebar" [class.open]="isOpen">
   <div class="logo-details">
-    <i class="bx bx-library icon"></i>
-    <span class="logo_name">Library</span>
-    <i class="bx bx-menu" id="btn" (click)="toggleSidebar()"></i> <!-- Angular click event -->
+      <i class="bx bx-library icon"></i>
+      <span class="logo_name">Library</span>
+      <i class="bx bx-menu" id="btn" (click)="toggleSidebar()"></i>
   </div>
   <ul class="nav-list">
-    <li>
-      <a href="#books">
-        <i class="bx bx-book"></i>
-        <span class="links_name">Quản lý sách</span>
-      </a>
-      <span class="tooltip">Quản lý sách</span>
-    </li>
-    <li>
-      <a href="#users">
-        <i class="bx bx-user"></i>
-        <span class="links_name">Quản lý người dùng</span>
-      </a>
-      <span class="tooltip">Quản lý người dùng</span>
-    </li>
-    <li>
-      <a href="#report">
-        <i class="bx bx-bar-chart"></i>
-        <span class="links_name">Báo cáo</span>
-      </a>
-      <span class="tooltip">Báo cáo</span>
-    </li>
+      <li>
+          <a href="#books">
+              <i class="bx bx-book"></i>
+              <span *ngIf="!isAdmin" class="links_name">Danh Sách Sách của Thư Viện</span>
+              <span *ngIf="isAdmin" class="links_name">Quản lý sách</span>
+          </a>
+          <span *ngIf="!isAdmin" class="tooltip">Danh Sách Sách của Thư Viện</span>
+          <span *ngIf="isAdmin" class="tooltip">Quản lý sách</span>
+      </li>
+      <li *ngIf="isAdmin">
+          <a href="#users">
+              <i class="bx bx-user"></i>
+              <span class="links_name">Quản lý người dùng</span>
+          </a>
+          <span class="tooltip">Quản lý người dùng</span>
+      </li>
+      <li *ngIf="isAdmin">
+          <a href="#report">
+              <i class="bx bx-bar-chart"></i>
+              <span class="links_name">Báo cáo</span>
+          </a>
+          <span class="tooltip">Báo cáo</span>
+      </li>
+      <li class="profile">
+          <div class="profile-details">
+              <img src="../../../assets/images/doraemon.jpg" alt="profileImg" />
+              <div class="name_role">
+                  <div class="name">Admin</div>
+                  <div class="role">Quản trị</div>
+              </div>
+          </div>
+          <i class="bx bx-log-out" id="log_out" (click)="logOut()"></i>
+      </li>
   </ul>
 </div>
-  <!-- Các section với id tương ứng -->
-  <div class="section">
-    <section class="section section-home" id="books">
-      <app-book-list></app-book-list>
-    </section>
-    <section class="section section-home" id="users">
-      <app-user-list></app-user-list>
-    </section>
-    <section class="section section-home" id="report">
-      <app-report></app-report>
-    </section>
-  </div>
-  
+
+<!-- Các section với id tương ứng -->
+<div class="section">
+  <section class="section section-home" id="books">
+    <app-book-list></app-book-list>
+  </section>
+  <section *ngIf="isAdmin" class="section section-home" id="users">
+    <app-user-list></app-user-list>
+  </section>
+  <section *ngIf="isAdmin" class="section section-home" id="report" style="left: 35px;">
+    <app-report></app-report>
+  </section>
+</div>

@@ -11,6 +11,7 @@ export class UserListComponent implements OnInit {
   customers: Customer[] = [];
   searchTerm: string = '';
   editingCustomer: Customer | null = null;
+  isLoading = true;
 
   constructor(private customerService: UserService, private router: Router) { }
 
@@ -21,14 +22,17 @@ export class UserListComponent implements OnInit {
   getCustomers(): void {
     this.customerService.getCustomers().subscribe(
       (response) => {
+        console.log(response);
         if (response.status === 'Success') {
           this.customers = response.data;
         } else {
           console.error('Failed to load customers:', response.message);
         }
+        this.isLoading = false;
       },
       (error) => {
         console.error('Lỗi khi lấy danh sách khách hàng:', error);
+        this.isLoading = false;
       }
     );
   }
@@ -49,7 +53,7 @@ export class UserListComponent implements OnInit {
   }
 
   editCustomer(customer: Customer): void {
-    this.router.navigate([`/edit-user`, customer.id]);
+    this.router.navigate([`/users/edit`, customer.id]);
   }  
 
   saveCustomer(customer: Customer): void {
