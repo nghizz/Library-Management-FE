@@ -36,6 +36,7 @@ export class BookEditComponent implements OnInit {
         error: (error) => {
           console.error('Lỗi khi tải thông tin sách', error);
           this.isLoading = false;
+          alert('Không thể tải thông tin sách, vui lòng thử lại!');
         }
       });
     } else {
@@ -44,20 +45,45 @@ export class BookEditComponent implements OnInit {
   }
 
   saveChanges(): void {
+    if (!this.book.title || !this.book.author || !this.book.isbn || this.book.quanity <= 0) {
+      alert('Vui lòng nhập đầy đủ thông tin sách!');
+      return;
+    }
+
+    this.isLoading = true;
     if (this.book.id) {
       this.bookService.updateBook(this.book.id, this.book).subscribe({
-        next: () => this.router.navigate(['/books']),
-        error: (error) => console.error('Lỗi khi cập nhật sách', error)
+        next: () => {
+          this.isLoading = false;
+          alert('Cập nhật sách thành công!');
+          this.router.navigate(['/books']);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Lỗi khi cập nhật sách', error);
+          alert('Có lỗi xảy ra khi cập nhật sách. Vui lòng thử lại!');
+        }
       });
     } else {
       this.bookService.addBook(this.book).subscribe({
-        next: () => this.router.navigate(['/books']),
-        error: (error) => console.error('Lỗi khi thêm sách mới', error)
+        next: () => {
+          this.isLoading = false;
+          alert('Thêm sách mới thành công!');
+          this.router.navigate(['/books']);
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Lỗi khi thêm sách mới', error);
+          alert('Có lỗi xảy ra khi thêm sách mới. Vui lòng thử lại!');
+        }
       });
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/books']);
+    const confirmBack = confirm('Bạn có chắc chắn muốn quay lại mà không lưu?');
+    if (confirmBack) {
+      this.router.navigate(['/books']);
+    }
   }
 }

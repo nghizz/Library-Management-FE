@@ -1,0 +1,33 @@
+<h2>DANH SÁCH ĐƠN MƯỢN SÁCH</h2>
+<div *ngIf="!isLoading" class="loading">Đang tải...</div>
+<div *ngIf="isLoading" class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Mã đơn hàng</th>
+        <th>Ngày cho mượn</th>
+        <th>Ngày trả</th>
+        <th>Trạng thái</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let borrowing of borrowings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ borrowing.id }}</td>
+        <td>{{ borrowing.borrowDate }}</td>
+        <td>{{ borrowing.returnDate }}</td>
+        <!-- Kiểm tra status để hiển thị Đang mượn hoặc Đã trả -->
+        <td>{{ borrowing.status === 0 ? 'Đang mượn' : 'Đã trả' }}</td>
+        <td>
+          <button (click)="viewDetails(borrowing.id!)">Xem chi tiết</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Nút Mượn sách -->
+  <button class="btn-borrow" (click)="borrowBook()">Mượn sách</button>
+
+</div>

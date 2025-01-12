@@ -1,111 +1,181 @@
 .borrowing-form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+    gap: 32px;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-    text-align: center;
     font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 600;
 }
 
-.loading {
+h3 {
+    font-size: 20px;
+    color: #1a1a1a;
+    margin: 24px 0 16px;
     text-align: center;
-    font-size: 16px;
-    color: #007bff;
-    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 95%;
+    padding: 12px 16px;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.form-group input, .form-group textarea, .form-group select {
-    width: 100%;
-    padding: 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    color: #4a4a4a;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
-.form-group input[type="checkbox"] {
-    margin-right: 10px;
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 16px;
 }
 
-.form-group input[type="number"] {
-    width: 60px;
+th, td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 14px;
+    /* Thêm các thuộc tính này */
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
 }
 
-.form-group textarea {
-    min-height: 100px;
+th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #2c2c2c;
+    white-space: nowrap;
 }
 
-.button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+td {
+    color: #4a4a4a;
 }
 
-.button-group .btn {
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+.btn {
     padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.button-group .btn-submit {
-    background-color: #28a745;
+.btn-submit {
+    background-color: #4CAF50;
     color: white;
-    border: none;
+    margin-right: 12px;
 }
 
-.button-group .btn-submit:hover {
-    background-color: #218838;
+.btn-submit:hover {
+    background-color: #43a047;
 }
 
-.button-group .btn-cancel {
-    background-color: #dc3545;
+.btn-delete {
+    background-color: #f44336;
     color: white;
-    border: none;
+    padding: 6px 12px;
 }
 
-.button-group .btn-cancel:hover {
-    background-color: #c82333;
+.btn-delete:hover {
+    background-color: #e53935;
 }
 
-@media (max-width: 768px) {
+a {
+    color: #2196F3;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #1976D2;
+    text-decoration: none;
+}
+
+.selected-books-table,
+.available-books-table {
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.selected-books-table th,
+.available-books-table th {
+    background-color: #f5f5f5;
+    padding: 14px 16px;
+}
+
+.selected-books-table td,
+.available-books-table td {
+    padding: 12px 16px;
+}
+
+/* Action buttons container */
+.table-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center; /* Căn giữa các nút trong cột thao tác */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
     .borrowing-form-container {
-        padding: 15px;
+        flex-direction: column;
     }
+    
+    .left-panel,
+    .right-panel {
+        width: 100%;
+    }
+}
 
-    h2 {
-        font-size: 20px;
-    }
-
-    .form-group label {
-        font-size: 14px;
-    }
-
-    .form-group input, .form-group textarea {
-        font-size: 12px;
-    }
-
-    .button-group .btn {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
+.button{
+    margin-top: 150px;
+    display: flex;
+    justify-content: flex-end;
+}
+.search{
+    display: flex;
 }

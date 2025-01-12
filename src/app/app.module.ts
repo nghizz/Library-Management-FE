@@ -18,6 +18,8 @@ import { ReportComponent } from './borrowing/report/report.component';
 import { UserListComponent } from './user-management/user-list/user-list.component';
 import { AddUserComponent } from './user-management/add-user/add-user.component';
 import { EditUserComponent } from './user-management/edit-user/edit-user.component';
+import { BorrowingListComponent } from './borrowing/borrowing-list/borrowing-list.component';
+import { BorrowingDetailComponent } from './borrowing/borrowing-detail/borrowing-detail.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { EditUserComponent } from './user-management/edit-user/edit-user.compone
     ReportComponent,
     UserListComponent,
     AddUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    BorrowingListComponent,
+    BorrowingDetailComponent
   ],
   imports: [
     BrowserModule,

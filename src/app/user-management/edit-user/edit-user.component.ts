@@ -1,4 +1,3 @@
-// edit-user.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -36,6 +35,7 @@ export class EditUserComponent implements OnInit {
           this.customer = response.data;
         } else {
           this.errorMessage = 'Không tìm thấy khách hàng.';
+          alert(this.errorMessage);
           this.router.navigate(['/users']); // Quay lại trang danh sách nếu không tìm thấy khách hàng
         }
         this.loading = false;
@@ -43,6 +43,7 @@ export class EditUserComponent implements OnInit {
       (error) => {
         console.error('Lỗi khi lấy thông tin khách hàng:', error);
         this.errorMessage = 'Không thể tải thông tin khách hàng.';
+        alert(this.errorMessage);
         this.loading = false;
       }
     );
@@ -52,6 +53,7 @@ export class EditUserComponent implements OnInit {
   saveCustomer(customer: Customer): void {
     if (!customer) {
       this.errorMessage = 'Không có thông tin khách hàng để lưu.';
+      alert(this.errorMessage);
       return;
     }
 
@@ -59,15 +61,18 @@ export class EditUserComponent implements OnInit {
     this.customerService.editCustomer(customer).subscribe(
       (response) => {
         if (response.status === 'Success') {
+          alert('Cập nhật khách hàng thành công!');
           this.router.navigate(['/users']); // Quay lại trang danh sách khi lưu thành công
         } else {
           this.errorMessage = response.message;
+          alert(this.errorMessage);
         }
         this.loading = false;
       },
       (error) => {
         console.error('Lỗi khi lưu khách hàng:', error);
         this.errorMessage = 'Lỗi khi lưu khách hàng.';
+        alert(this.errorMessage);
         this.loading = false;
       }
     );

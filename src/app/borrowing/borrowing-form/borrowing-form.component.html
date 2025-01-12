@@ -1,25 +1,78 @@
 <div class="borrowing-form-container">
-  <h2>Mượn sách</h2>
-
-  <div class="form-group">
-    <label for="cccd">CCCD:</label>
-    <input type="text" id="cccd" [(ngModel)]="cccd">
+  <div class="left-panel">
+    <h2>DANH SÁCH SÁCH</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Tìm kiếm sách" [(ngModel)]="searchTerm">
+      <button class="btn btn-search" (click)="onSearch()">Tìm kiếm</button>
+    </div>
+    <table class="available-books-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên Sách</th>
+          <th>Mã Số Sách</th>
+          <th>Tác Giả</th>
+          <th>Số Lượng</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!isLoadingList">
+        <tr>
+          <td colspan="5">Đang tải...</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf= "isLoadingList">
+        <tr *ngFor="let book of availableBooks, let i = index">
+          <td>{{i + 1}}</td>
+          <td>
+            <a href="#" (click)="addBook(book); $event.preventDefault();">
+              {{ book.title }}
+            </a>
+          </td>
+          <td>{{ book.isbn }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.quanity }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="form-group">
-    <label for="returnDate">Ngày trả sách:</label>
-    <input type="date" id="returnDate" [(ngModel)]="returnDate">
-  </div>
+  <div class="right-panel">
+    <h2>TẠO ĐƠN MƯỢN SÁCH</h2>
 
-  <h3>Danh sách sách đã chọn</h3>
-  <ul>
-    <li *ngFor="let book of selectedBooks">
-      {{ book.title }} - Số lượng: {{ book.quantity }}
-    </li>
-  </ul>
+    <div class="form-group">
+      <label for="cccd">Số CCCD:</label>
+      <input type="text" id="cccd" [(ngModel)]="cccd">
+    </div>
 
-  <div class="button-group">
-    <button class="btn btn-cancel" (click)="onBack()">Quay lại</button>
-    <button class="btn btn-submit" (click)="createBorrowing()">Xác nhận mượn</button>
+    <div class="form-group">
+      <label for="returnDate">Ngày trả:</label>
+      <input type="date" id="returnDate" [(ngModel)]="returnDate" [min]="todayDate">
+    </div>
+
+    <h3>Danh sách sách đã chọn</h3>
+    <table class="selected-books-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên sách</th>
+          <th>Số lượng</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of selectedBooks; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ book.title }}</td>
+          <td>{{ book.quantity }}</td>
+          <td>
+            <button class="btn btn-delete" (click)="removeBook(i)">Xóa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="button">
+      <button class="btn btn-submit" (click)="createBorrowing()">Tạo đơn mượn sách</button>
+      <button class="btn btn-submit" (click)="onBack()">Quay lại</button>
+    </div>
   </div>
 </div>

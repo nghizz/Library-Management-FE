@@ -13,6 +13,8 @@ import { UserListComponent } from './user-management/user-list/user-list.compone
 import { AddUserComponent } from './user-management/add-user/add-user.component';
 import { EditUserComponent } from './user-management/edit-user/edit-user.component';
 import { ReportComponent } from './borrowing/report/report.component';
+import { BorrowingDetailComponent } from './borrowing/borrowing-detail/borrowing-detail.component';
+import { BorrowingListComponent } from './borrowing/borrowing-list/borrowing-list.component';
 import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
@@ -24,9 +26,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'books', component: BookListComponent },
-      
       { path: 'users', component: UserListComponent },
       { path: 'report', component: ReportComponent },
+      { path: 'borrowing', component: BorrowingListComponent},
       { path: '', redirectTo: 'books', pathMatch: 'full' }
     ]
   },
@@ -36,6 +38,7 @@ const routes: Routes = [
   { path: 'users/add', component: AddUserComponent, canActivate: [AuthGuard] },
   { path: 'users/edit/:id', component: EditUserComponent, canActivate: [AuthGuard] },
   { path: 'borrowing/create', component: BorrowingFormComponent, canActivate: [AuthGuard] },
+  { path: 'borrowing/detail/:id', component: BorrowingDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 

@@ -34,16 +34,23 @@ export class LoginComponent {
           
           // Điều hướng đến trang chính sau khi đăng nhập thành công
           this.router.navigate(['/home']);
+        } else if (response.message === "This UserName don't have in system!") {
+          console.error('Tài khoản không tồn tại:', response.message);
+          alert('Tài khoản không tồn tại!');
+        } else if (response.message === 'The password is incorrect!') {
+          console.error('Mật khẩu không đúng:', response.message);
+          alert('Mật khẩu không đúng!');
         } else {
           console.error('Lỗi đăng nhập:', response.message);
+          alert(response.message);  // Hiển thị thông báo lỗi từ API
         }
       },
       (error) => {
         console.error('Lỗi API:', error);
+        alert('Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại!');
       }
     );
   }
-  
 
   forgotPassword() {
     console.log('Forgot password clicked');

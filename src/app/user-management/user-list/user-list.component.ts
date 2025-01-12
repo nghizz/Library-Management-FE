@@ -37,21 +37,6 @@ export class UserListComponent implements OnInit {
     );
   }
 
-  addCustomer(customer: Customer): void {
-    this.customerService.addCustomer(customer).subscribe(
-      (response) => {
-        if (response.status === 'Success') {
-          this.getCustomers();
-        } else {
-          console.error('Failed to add customer:', response.message);
-        }
-      },
-      (error) => {
-        console.error('Lỗi khi thêm khách hàng:', error);
-      }
-    );
-  }
-
   editCustomer(customer: Customer): void {
     this.router.navigate([`/users/edit`, customer.id]);
   }  

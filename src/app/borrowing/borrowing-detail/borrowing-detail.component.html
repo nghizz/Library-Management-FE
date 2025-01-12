@@ -1,0 +1,47 @@
+<div *ngIf="isLoading" class="loading">Đang tải...</div>
+<div *ngIf="!isLoading" class="container">
+  <h2>CHI TIẾT MƯỢN SÁCH</h2>
+  <div *ngIf="borrowing">
+    <!-- Nút quay lại -->
+    <button class="btn btn-primary" (click)="goBack()">Quay lại</button>
+
+    <!-- Hiển thị thông tin mượn sách -->
+    <p><strong>CCCD:</strong> {{ borrowing.cccd }}</p>
+    <p><strong>Ngày mượn:</strong> {{ borrowing.borrowDate }}</p>
+    <p><strong>Ngày trả:</strong> {{ borrowing.returnDate}}</p>
+    <p><strong>Trạng thái:</strong>
+      {{ borrowing.status === 0 ? 'Đang Mượn' : borrowing.status === 1 ? 'Đã Trả' : 'Không xác định' }}
+    </p>
+
+    <!-- Hiển thị thông tin người mượn -->
+    <p *ngIf="userFullName"><strong>Tên người mượn:</strong> {{ userFullName }}</p>
+    <p *ngIf="userCccd"><strong>CCCD người mượn:</strong> {{ userCccd }}</p>
+
+    <!-- Hiển thị chi tiết sách mượn -->
+    <h3>Chi tiết sách mượn:</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Tên sách</th>
+          <th>Tác giả</th>
+          <th>Số lượng mượn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of borrowing.borrowingDetails">
+          <td *ngIf="detail.book">{{ detail.book.title }}</td>
+          <td *ngIf="detail.book">{{ detail.book.author }}</td>
+          <td>{{ detail.quantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Cập nhật trạng thái mượn sách -->
+    <div *ngIf="borrowing.status === 0">
+      <button (click)="updateStatus(1)">Đánh dấu là đã trả</button>
+    </div>
+    <div *ngIf="borrowing.status === 1">
+      <button (click)="updateStatus(0)">Đánh dấu là đang mượn</button>
+    </div>
+  </div>
+</div>
